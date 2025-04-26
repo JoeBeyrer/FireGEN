@@ -129,6 +129,10 @@ def get_tf_dataset(file_pattern, data_size, sample_size, batch_size, num_in_chan
 class TFRecordPyTorchDataset(IterableDataset):
     def __init__(self, tf_dataset):
         self.tf_dataset = tf_dataset
+        self._len = sum(1 for _ in tf_dataset)
+
+    def __len__(self):
+        return self._len  
 
     def __iter__(self):
         for batch in self.tf_dataset:

@@ -3,11 +3,12 @@ import torch.nn as nn
 
 
 class GenLoss(nn.Module):
-    def __init__(self, lambd=2, pos_weight=None, bce_weight=0.5):
+    def __init__(self, alpha=1, lambd=2, pos_weight=None, bce_weight=0.5):
         super().__init__()
         self.bce = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
         self.bce_weight = bce_weight
         self.lambd = lambd
+        self.alpha = alpha
     
     def dice_loss(self, pred, target):
         pred = torch.sigmoid(pred)  
@@ -25,7 +26,7 @@ class GenLoss(nn.Module):
         # Dice loss for region overlap
         dice_loss = self.dice_loss(gen_mask, target_mask)  
 
-        total_loss = loss + self.lambd*(self.bce_weight*bce_loss + (1-self.bce_weight)*dice_loss)
+        total_loss = self.alpha*loss + self.lambd*(self.bce_weight*bce_loss + (1-self.bce_weight)*dice_loss)
 
         return total_loss
     

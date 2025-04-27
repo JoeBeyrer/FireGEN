@@ -120,6 +120,7 @@ def get_tf_dataset(file_pattern, data_size, sample_size, batch_size, num_in_chan
         lambda x: _parse_fn(  # pylint: disable=g-long-lambda
             x, data_size, sample_size, num_in_channels, clip_and_normalize, clip_and_rescale, random_crop, center_crop), 
             num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    dataset = dataset.filter(lambda img, tgt: tf.reduce_all(tf.not_equal(tgt, 255))) # Remove all samples with missing targets
     dataset = dataset.batch(batch_size)
     dataset = dataset.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
     return dataset

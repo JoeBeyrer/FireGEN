@@ -163,16 +163,16 @@ class Discriminator(nn.Module):
         self.eb2 = nn.BatchNorm2d(128)
         self.lr2 = nn.LeakyReLU(0.2, inplace=False)
 
-        self.e3 = nn.Conv2d(128, 256, kernel_size=kernel_size, stride=stride, padding=padding, bias=False)
-        self.eb3 = nn.BatchNorm2d(256)
-        self.lr3 = nn.LeakyReLU(0.2, inplace=False)
+        # self.e3 = nn.Conv2d(128, 256, kernel_size=kernel_size, stride=stride, padding=padding, bias=False)
+        # self.eb3 = nn.BatchNorm2d(256)
+        # self.lr3 = nn.LeakyReLU(0.2, inplace=False)
 
-        self.e4 = nn.Conv2d(256, 512, kernel_size=kernel_size, stride=stride, padding=padding, bias=False)
-        self.eb4 = nn.BatchNorm2d(512)
-        self.lr4 = nn.LeakyReLU(0.2, inplace=False)
+        # self.e4 = nn.Conv2d(256, 512, kernel_size=kernel_size, stride=stride, padding=padding, bias=False)
+        # self.eb4 = nn.BatchNorm2d(512)
+        # self.lr4 = nn.LeakyReLU(0.2, inplace=False)
 
         # Output
-        self.output = nn.Conv2d(512, 1, kernel_size=4, stride=1, padding=1)
+        self.output = nn.Conv2d(128, 1, kernel_size=4, stride=1, padding=1)
 
     
     def forward(self, input, target):
@@ -182,13 +182,13 @@ class Discriminator(nn.Module):
         e2 = self.e2(lr1)
         eb2 = self.eb2(e2)
         lr2 = self.lr2(eb2)
-        e3 = self.e3(lr2)
-        eb3 = self.eb3(e3)
-        lr3 = self.lr3(eb3)
-        e4 = self.e4(lr3)
-        eb4 = self.eb4(e4)
-        lr4 = self.lr4(eb4)
-        out = self.output(lr4)
+        # e3 = self.e3(lr2)
+        # eb3 = self.eb3(e3)
+        # lr3 = self.lr3(eb3)
+        # e4 = self.e4(lr3)
+        # eb4 = self.eb4(e4)
+        # lr4 = self.lr4(eb4)
+        out = self.output(lr2)
 
         return out
         
